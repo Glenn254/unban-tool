@@ -1,59 +1,70 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WhatsApp Unban Tool</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main class="container">
-    <h1 class="title">WHATSAPP UNBAN TOOL</h1>
+// Frontend-only simulation (no real WhatsApp API calls)
+const WHATSAPP_CHANNEL_LINK = "https://whatsapp.com/channel/0029Vb6XAv0GOj9lYT2p3l1X";
 
-    <label class="label">SELECT UNBAN OPTION:</label>
-    <div class="select-wrap">
-      <select id="unbanType" class="select">
-        <option value="permanent">PERMANENT UNBANNED</option>
-        <option value="temporary">TEMPORARY UNBANNED</option>
-      </select>
-    </div>
+const sendBtn = document.getElementById('sendBtn');
+const phoneInput = document.getElementById('phoneInput');
+const unbanType = document.getElementById('unbanType');
+const promptSelect = document.getElementById('promptSelect');
 
-    <label class="label">ENTER YOUR NUMBER</label>
-    <input id="phoneInput" class="input" type="tel" placeholder="e.g. +254712345678" />
+const loaderArea = document.getElementById('loaderArea');
+const resultArea = document.getElementById('resultArea');
+const percentLabel = document.getElementById('percentLabel');
+const resultText = document.getElementById('resultText');
+const channelLink = document.getElementById('channelLink');
 
-    <label class="label">SELECT PROMPT:</label>
-    <div class="select-wrap">
-      <select id="promptSelect" class="select">
-        <option>PROMPT 1: FIRST APPEAL</option>
-        <option>PROMPT 2: SECOND APPEAL</option>
-        <option>PROMPT 3: FINAL CHANCE REQUEST</option>
-        <option>PROMPT 4: INVESTIGATION REVIEW</option>
-      </select>
-    </div>
+const circle = document.querySelector('.progress-ring__circle');
+const radius = circle.r.baseVal.value;
+const circumference = 2 * Math.PI * radius;
+circle.style.strokeDasharray = `${circumference} ${circumference}`;
+circle.style.strokeDashoffset = circumference;
 
-    <button id="sendBtn" class="btn">SEND UNBAN REQUEST</button>
+function setProgress(percent) {
+  const offset = circumference - (percent / 100) * circumference;
+  circle.style.strokeDashoffset = offset;
+  percentLabel.textContent = `${Math.round(percent)}%`;
+}
 
-    <div id="loaderArea" class="loader-area hidden" aria-hidden="true">
-      <div class="circle-wrap">
-        <svg class="progress-ring" width="120" height="120">
-          <circle class="progress-ring__circle--bg" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
-          <circle class="progress-ring__circle" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
-        </svg>
-        <div id="percentLabel" class="percent">0%</div>
-      </div>
-      <div class="loader-note">Processing request, please wait...</div>
-    </div>
+function sanitizeNumber(v) {
+  return v.trim() || "(no number entered)";
+}
 
-    <div id="resultArea" class="result hidden" aria-hidden="true">
-      <p id="resultText" class="result-text"></p>
-      <a id="channelLink" class="channel-link" target="_blank" rel="noopener">JOIN OUR WHATSAPP CHANNEL</a>
-    </div>
+function disableForm(state) {
+  sendBtn.disabled = state;
+  phoneInput.disabled = state;
+  unbanType.disabled = state;
+  promptSelect.disabled = state;
+}
 
-    <footer class="footer">
-      <small>DEVELOPED BY OLD-HACKERS | © 2025 | ALL SYSTEMS OPERATIONAL</small>
-    </footer>
-  </main>
+sendBtn.addEventListener('click', () => {
+  const phone = sanitizeNumber(phoneInput.value);
+  disableForm(true);
+  resultArea.classList.add('hidden');
+  loaderArea.classList.remove('hidden');
+  let start = Date.now();
+  const duration = 60000; // 1 minute
+  setProgress(0);
 
-  <script src="script.js"></script>
-</body>
-</html>
+  const interval = setInterval(() => {
+    const elapsed = Date.now() - start;
+    const pct = Math.min(100, (elapsed / duration) * 100);
+    setProgress(pct);
+
+    if (pct >= 100) {
+      clearInterval(interval);
+      loaderArea.classList.add('hidden');
+      const typeText = unbanType.options[unbanType.selectedIndex].text;
+      const promptText = promptSelect.options[promptSelect.selectedIndex].text;
+
+      resultText.innerHTML = `
+        Your WhatsApp number <strong>${phone}</strong> has been <strong>unbanned successfully</strong>.<br>
+        Kindly log in to your restored account.<br>
+        <small style="opacity:0.8">(${typeText} — ${promptText})</small>
+      `;
+
+      channelLink.href = WHATSAPP_CHANNEL_LINK;
+      resultArea.classList.remove('hidden');
+      disableForm(false);
+      setTimeout(() => setProgress(0), 500);
+    }
+  }, 100);
+});
