@@ -7,51 +7,53 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="container">
-    <h1 class="title">WHATSAPP UNBAN TOOL</h1>
+  <!-- Password overlay -->
+  <div id="passwordOverlay" class="overlay">
+    <div class="passwordBox">
+      <h2>Enter Password</h2>
+      <input id="passwordInput" type="password" placeholder="Password" />
+      <button id="passwordBtn">Enter</button>
+      <p id="pwMessage" class="muted">Password required to access.</p>
+    </div>
+  </div>
+
+  <!-- Main card -->
+  <main class="card" id="mainCard" aria-hidden="true">
+    <h1>WHATSAPP UNBAN TOOL</h1>
 
     <label class="label">SELECT UNBAN OPTION:</label>
-    <div class="select-wrap">
-      <select id="unbanType" class="select">
-        <option value="permanent">PERMANENT UNBANNED</option>
-        <option value="temporary">TEMPORARY UNBANNED</option>
-      </select>
-    </div>
+    <select id="unbanOption" class="select">
+      <option value="permanent">PERMANENT UNBANNED</option>
+      <option value="temporary">TEMPORARY UNBANNED</option>
+    </select>
 
     <label class="label">ENTER YOUR NUMBER</label>
-    <input id="phoneInput" class="input" type="tel" placeholder="e.g. +254712345678" />
+    <input id="phoneInput" class="input" placeholder="e.g., +923001234567" />
 
     <label class="label">SELECT PROMPT:</label>
-    <div class="select-wrap">
-      <select id="promptSelect" class="select">
-        <option>PROMPT 1: FIRST APPEAL</option>
-        <option>PROMPT 2: SECOND APPEAL</option>
-        <option>PROMPT 3: FINAL CHANCE REQUEST</option>
-        <option>PROMPT 4: INVESTIGATION REVIEW</option>
-      </select>
+    <select id="promptSelect" class="select">
+      <option>PROMPT 1: FRIENDLY REQUEST</option>
+      <option>PROMPT 2: FORMAL REQUEST</option>
+      <option>PROMPT 3: HUMBLE PLEA</option>
+      <option>PROMPT 4: APPEAL</option>
+      <option>PROMPT 5: TECHNICAL EXPLANATION</option>
+      <option>PROMPT 6: FINAL CHANCE REQUEST</option>
+    </select>
+
+    <div class="spacer"></div>
+    <button id="sendBtn" class="bigBtn">SEND UNBAN REQUEST</button>
+
+    <div id="statusArea" class="statusArea" aria-live="polite">
+      <!-- Loader and messages appear here -->
     </div>
 
-    <button id="sendBtn" class="btn">SEND UNBAN REQUEST</button>
-
-    <div id="loaderArea" class="loader-area hidden" aria-hidden="true">
-      <div class="circle-wrap">
-        <svg class="progress-ring" width="120" height="120">
-          <circle class="progress-ring__circle--bg" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
-          <circle class="progress-ring__circle" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
-        </svg>
-        <div id="percentLabel" class="percent">0%</div>
-      </div>
-      <div class="loader-note">Processing request, please wait...</div>
-    </div>
-
-    <div id="resultArea" class="result hidden" aria-hidden="true">
-      <p id="resultText" class="result-text"></p>
-      <a id="channelLink" class="channel-link" target="_blank" rel="noopener">JOIN OUR WHATSAPP CHANNEL</a>
-    </div>
-
-    <footer class="footer">
-      <small>DEVELOPED BY OLD-HACKERS | © 2025 | ALL SYSTEMS OPERATIONAL</small>
+    <footer class="footertext">
+      DEVELOPED BY OLD-HACKERS | © 2025 | ALL SYSTEMS OPERATIONAL
     </footer>
+
+    <div class="channelWrap">
+      <button id="channelBtn" class="channelBtn">JOIN OUR WHATSAPP CHANNEL</button>
+    </div>
   </main>
 
   <script src="script.js"></script>
