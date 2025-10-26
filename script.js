@@ -1,48 +1,59 @@
-// Password Protection
-const correctPassword = "papanast2545";
-const passwordScreen = document.getElementById("password-screen");
-const mainContent = document.getElementById("main-content");
-const passwordBtn = document.getElementById("password-btn");
-const passwordInput = document.getElementById("password-input");
-const passwordError = document.getElementById("password-error");
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WhatsApp Unban Tool</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1 class="title">WHATSAPP UNBAN TOOL</h1>
 
-passwordBtn.addEventListener("click", () => {
-  if (passwordInput.value === correctPassword) {
-    passwordScreen.classList.add("hidden");
-    mainContent.classList.remove("hidden");
-  } else {
-    passwordError.textContent = "Incorrect password. Try again.";
-  }
-});
+    <label class="label">SELECT UNBAN OPTION:</label>
+    <div class="select-wrap">
+      <select id="unbanType" class="select">
+        <option value="permanent">PERMANENT UNBANNED</option>
+        <option value="temporary">TEMPORARY UNBANNED</option>
+      </select>
+    </div>
 
-// Unban Simulation
-const unbanBtn = document.getElementById("unban-btn");
-const phoneInput = document.getElementById("phone-number");
-const loadingDiv = document.getElementById("loading");
-const progressBar = document.getElementById("progress");
-const resultText = document.getElementById("result");
+    <label class="label">ENTER YOUR NUMBER</label>
+    <input id="phoneInput" class="input" type="tel" placeholder="e.g. +254712345678" />
 
-unbanBtn.addEventListener("click", () => {
-  const phone = phoneInput.value.trim();
-  if (!phone) {
-    alert("Please enter your number first.");
-    return;
-  }
+    <label class="label">SELECT PROMPT:</label>
+    <div class="select-wrap">
+      <select id="promptSelect" class="select">
+        <option>PROMPT 1: FIRST APPEAL</option>
+        <option>PROMPT 2: SECOND APPEAL</option>
+        <option>PROMPT 3: FINAL CHANCE REQUEST</option>
+        <option>PROMPT 4: INVESTIGATION REVIEW</option>
+      </select>
+    </div>
 
-  unbanBtn.disabled = true;
-  loadingDiv.classList.remove("hidden");
-  progressBar.style.width = "0%";
-  resultText.textContent = "";
+    <button id="sendBtn" class="btn">SEND UNBAN REQUEST</button>
 
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += 2;
-    progressBar.style.width = progress + "%";
-    if (progress >= 100) {
-      clearInterval(interval);
-      loadingDiv.classList.add("hidden");
-      resultText.innerHTML = `✅ Your WhatsApp number <b>${phone}</b> has been unbanned successfully.<br>Kindly log in into your restored account.`;
-      unbanBtn.disabled = false;
-    }
-  }, 600); // ~1 minute loading
-});
+    <div id="loaderArea" class="loader-area hidden" aria-hidden="true">
+      <div class="circle-wrap">
+        <svg class="progress-ring" width="120" height="120">
+          <circle class="progress-ring__circle--bg" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
+          <circle class="progress-ring__circle" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
+        </svg>
+        <div id="percentLabel" class="percent">0%</div>
+      </div>
+      <div class="loader-note">Processing request, please wait...</div>
+    </div>
+
+    <div id="resultArea" class="result hidden" aria-hidden="true">
+      <p id="resultText" class="result-text"></p>
+      <a id="channelLink" class="channel-link" target="_blank" rel="noopener">JOIN OUR WHATSAPP CHANNEL</a>
+    </div>
+
+    <footer class="footer">
+      <small>DEVELOPED BY OLD-HACKERS | © 2025 | ALL SYSTEMS OPERATIONAL</small>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
