@@ -7,7 +7,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="container">
+  <!-- Password overlay shown first -->
+  <div id="pwOverlay" class="pw-overlay">
+    <div class="pw-box">
+      <h2>Enter Password</h2>
+      <input id="pwInput" class="pw-input" type="password" placeholder="Password" autofocus />
+      <div class="pw-actions">
+        <button id="pwBtn" class="btn small">Unlock</button>
+      </div>
+      <p id="pwMsg" class="pw-msg"></p>
+    </div>
+  </div>
+
+  <!-- Main app (hidden until correct password) -->
+  <main id="appContainer" class="container hidden">
     <h1 class="title">WHATSAPP UNBAN TOOL</h1>
 
     <label class="label">SELECT UNBAN OPTION:</label>
